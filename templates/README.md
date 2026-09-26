@@ -22,7 +22,7 @@ npm run setup   # Playwright バンドルの chromium をインストール（PD
 src/pages/
   SamplePage/
     main.tsx        # default export。data-canvas="page" + page クラスを付ける
-    sample.css.ts   # 同梱の vanilla-extract スタイル
+                    # スタイルは Tailwind のユーティリティクラスで直接書く
 ```
 
 - フォルダ名がそのまま URL（file-based routing）になり、並び順はフォルダ名のユニコード順です。
@@ -32,12 +32,11 @@ src/pages/
 
 ```tsx
 import { page } from '@yodogawa404/print-assets/page';
-import * as s from './sample.css.ts';
 
 export default function SamplePage() {
   return (
     <div className={page} data-canvas="page" data-format="a4">
-      <div className={s.canvas}>…</div>
+      <div className="flex flex-col bg-paper p-[18mm]">…</div>
     </div>
   );
 }
@@ -55,41 +54,65 @@ npx tsc --noEmit # 型チェック
 `npm run build` はビルド完了後にエンジンの export が動き、`dist/` に
 `<slug>.pdf` と `<slug>@2x.png`（Retina 2x）を出力し、HTML を削除します。
 
-## スタイル（vanilla-extract / sprinkles）
+## スタイル（Tailwind CSS）
 
-型安全な atomic CSS ユーティリティとして `@vanilla-extract/sprinkles` が使えます。
-`src/styles/sprinkles.css.ts` が `theme.css.ts` のトークン（`vars.colors` / `space` /
-`fontSize` / `fontFamily`）に結びついた `sprinkles` を export しています。
+Tailwind CSS v4（`@tailwindcss/vite` プラグイン）でスタイルします。`.css.ts` は不要で、
+`main.tsx` にユーティリティクラスを直接書きます。
 
-```ts
-// src/pages/Flyer/box.css.ts
-import { style } from '@vanilla-extract/css';
-import { sprinkles } from '../../styles/sprinkles.css.ts';
-
-export const box = style([
-  sprinkles({
-    display: 'flex',
-    justifyContent: 'space-between',
-    paddingY: 4,
-    gap: 3,
-    color: 'brand',
-    // レスポンシブ（プレビュー時。print 出力には影響しません）:
-    flexDirection: { base: 'column', md: 'row' },
-  }),
-  {
-    // ユーティリティに収まらない記述は style に直接書く
-    ':hover': { opacity: 0.8 },
-  },
-]);
+```tsx
+<div className="flex items-center justify-between gap-4 bg-paper p-[18mm] text-ink">
+  …
+</div>
 ```
 
-- 利用可能なプロパティは `sprinkles.css.ts` の `properties`（display / flex /
-  padding / margin / gap / color / background / fontSize 等）を参照してください。
-- `padding` / `paddingX` / `paddingY` / `margin` などのショートハンドもあります。
-- `space` はテーマの数値キー（`1` = `4px`, `4` = `16px`, `12` = `48px`）です。
-- mm 指定が必要なプリント専用のサイズ（`18mm` の padding 等）は `style({...})` に直接書いてください。
+- プリント用の mm サイズは任意値クラスで指定します（`p-[18mm]`, `text-[5.5mm]`,
+  `mt-[20mm]`, `max-w-[140mm]`, `leading-[1.7]` など）。
+- ブランドトークン（色 / フォント）は `src/styles/global.css` の `@theme` に集約します。
+  定義した `--color-*` はそのままユーティリティになります:
+
+```css
+/* src/styles/global.css */
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', 'LINE Seed JP', 'Noto Sans JP', sans-serif;
+  --color-ink: #1a1a1a;
+  --color-paper: #ffffff;
+  --color-brand: #2563eb;
+}
+```
+
+  `--color-ink` → `text-ink` / `bg-ink` / `border-ink`、`--font-sans` → `font-sans` 等。
+- ユーティリティに収まらない専用スタイルは `global.css` に素の CSS として書くか、
+  インライン `style` を使ってください。
+
+## フォント
+
+以下のフォントパッケージ（すべて OFL-1.1）を依存関係に含めています。`src/styles/global.css` の
+`@import` で用途別の `@font-face` CSS を読み込んでいます。
+
+```css
+/* src/styles/global.css */
+@import 'tailwindcss';
+@import '@yodogawa404/font-inter/alphabets.css';
+@import '@yodogawa404/line-seed-jp/hiragana.css';
+@import '@yodogawa404/line-seed-jp/katakana.css';
+@import '@yodogawa404/noto-sans-jp/index.css';
+```
+
+| パッケージ | font-family | weights | 役割 |
+| --- | --- | --- | --- |
+| `@yodogawa404/font-inter` | `Inter` | 400 / 700 | 英数字・記号 |
+| `@yodogawa404/line-seed-jp` | `LINE Seed JP` | 400 / 700 | ひらがな / カタカナ |
+| `@yodogawa404/noto-sans-jp` | `Noto Sans JP` | 400 / 700 | 漢字ほか |
+
+- フォントスタックは `global.css` の `--font-sans`（`Inter` → `LINE Seed JP` → `Noto Sans JP`）。
+  unicode-range で文字種ごとにフォントが切り替わるので、必要なファイルだけ読み込まれます。
+- **palt（プロポーショナル字形）と kern（カーニング）は `global.css` の `:root` で
+  デフォルト有効**です（`font-feature-settings: 'palt'` / `font-kerning: normal`）。
+  無効化したい場合のみ `global.css` を編集してください。
 
 ## ブランドトークン
 
-ブランド色などのトークンは `src/styles/theme.css.ts` に集約してください（生成先プロジェクト側の所有物）。
+ブランド色などのトークンは `src/styles/global.css` の `@theme` に集約してください（生成先プロジェクト側の所有物）。
 エンジン自体はブランドを持ちません。

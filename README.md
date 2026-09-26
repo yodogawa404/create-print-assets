@@ -22,17 +22,14 @@ npm create @yodogawa404/print-assets my-app
 
 ```
 index.html                 # @yodogawa404/print-assets/entrypoint を参照
-package.json               # vite / react 19 / playwright / @yodogawa404/print-assets
-vite.config.ts             # react + vanilla-extract + printAssets プラグイン入り雛形
+package.json               # vite / react 19 / playwright / tailwindcss / フォント（Inter・LINE Seed JP・Noto Sans JP）
+vite.config.ts             # react + tailwindcss + printAssets プラグイン入り雛形
 tsconfig.json
 README.md                  # セットアップ / ページ追加手順
 src/
-  styles/theme.css.ts      # サンプルのテーマ
-  styles/global.css.ts
-  styles/sprinkles.css.ts  # @vanilla-extract/sprinkles のセットアップ（テーマトークン連動）
+  styles/global.css        # @import "tailwindcss" + @theme（ブランドトークン）
   pages/SamplePage/
-    main.tsx               # data-canvas="page" + page クラスの雛形
-    sample.css.ts
+    main.tsx               # data-canvas="page" + page クラスの雛形（Tailwind ユーティリティ）
 ```
 
 生成後:

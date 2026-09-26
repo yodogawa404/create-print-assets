@@ -1,6 +1,6 @@
 {
   "name": "@yodogawa404/create-print-assets",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Scaffold CLI that generates a project using the @yodogawa404/print-assets engine",
   "type": "module",
   "license": "MIT",
