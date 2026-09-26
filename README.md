@@ -29,6 +29,7 @@ README.md                  # セットアップ / ページ追加手順
 src/
   styles/theme.css.ts      # サンプルのテーマ
   styles/global.css.ts
+  styles/sprinkles.css.ts  # @vanilla-extract/sprinkles のセットアップ（テーマトークン連動）
   pages/SamplePage/
     main.tsx               # data-canvas="page" + page クラスの雛形
     sample.css.ts

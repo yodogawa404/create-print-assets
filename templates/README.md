@@ -55,6 +55,40 @@ npx tsc --noEmit # 型チェック
 `npm run build` はビルド完了後にエンジンの export が動き、`dist/` に
 `<slug>.pdf` と `<slug>@2x.png`（Retina 2x）を出力し、HTML を削除します。
 
+## スタイル（vanilla-extract / sprinkles）
+
+型安全な atomic CSS ユーティリティとして `@vanilla-extract/sprinkles` が使えます。
+`src/styles/sprinkles.css.ts` が `theme.css.ts` のトークン（`vars.colors` / `space` /
+`fontSize` / `fontFamily`）に結びついた `sprinkles` を export しています。
+
+```ts
+// src/pages/Flyer/box.css.ts
+import { style } from '@vanilla-extract/css';
+import { sprinkles } from '../../styles/sprinkles.css.ts';
+
+export const box = style([
+  sprinkles({
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingY: 4,
+    gap: 3,
+    color: 'brand',
+    // レスポンシブ（プレビュー時。print 出力には影響しません）:
+    flexDirection: { base: 'column', md: 'row' },
+  }),
+  {
+    // ユーティリティに収まらない記述は style に直接書く
+    ':hover': { opacity: 0.8 },
+  },
+]);
+```
+
+- 利用可能なプロパティは `sprinkles.css.ts` の `properties`（display / flex /
+  padding / margin / gap / color / background / fontSize 等）を参照してください。
+- `padding` / `paddingX` / `paddingY` / `margin` などのショートハンドもあります。
+- `space` はテーマの数値キー（`1` = `4px`, `4` = `16px`, `12` = `48px`）です。
+- mm 指定が必要なプリント専用のサイズ（`18mm` の padding 等）は `style({...})` に直接書いてください。
+
 ## ブランドトークン
 
 ブランド色などのトークンは `src/styles/theme.css.ts` に集約してください（生成先プロジェクト側の所有物）。

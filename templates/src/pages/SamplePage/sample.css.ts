@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '../../styles/theme.css.ts';
+import { sprinkles } from '../../styles/sprinkles.css.ts';
 
 export const canvas = style({
   flex: 1,
@@ -9,11 +10,13 @@ export const canvas = style({
   background: vars.colors.paper,
 });
 
-export const header = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-});
+export const header = style([
+  sprinkles({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  }),
+]);
 
 export const brand = style({
   fontSize: '5.5mm',
@@ -38,11 +41,15 @@ export const body = style({
   maxWidth: '140mm',
 });
 
-export const footer = style({
-  borderTop: `1px solid ${vars.colors.line}`,
-  paddingTop: '6mm',
-  display: 'flex',
-  justifyContent: 'space-between',
-  fontSize: '3.8mm',
-  color: vars.colors.muted,
-});
+export const footer = style([
+  sprinkles({
+    display: 'flex',
+    justifyContent: 'space-between',
+  }),
+  {
+    borderTop: `1px solid ${vars.colors.line}`,
+    paddingTop: '6mm',
+    fontSize: '3.8mm',
+    color: vars.colors.muted,
+  },
+]);

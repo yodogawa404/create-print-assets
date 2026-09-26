@@ -30,7 +30,7 @@ templates/                      # 生成されるプロジェクト雛形
   README.md                    # {{name}} 置換（Playwright 初回 install 手順を明記）
   vite.config.ts / tsconfig.json
   src/pages/SamplePage/        # main.tsx + sample.css.ts
-  src/styles/theme.css.ts / global.css.ts
+  src/styles/theme.css.ts / global.css.ts / sprinkles.css.ts
 ```
 
 ## 重要：設計・規約
