@@ -1,6 +1,6 @@
-# AGENTS.md — @yogodawa404/create-print-assets（scaffold CLI）
+# AGENTS.md — @yodogawa404/create-print-assets（scaffold CLI）
 
-`@yogodawa404/print-assets` のプロジェクト雛形を生成する公開 OSS CLI。
+`@yodogawa404/print-assets` のプロジェクト雛形を生成する公開 OSS CLI。
 
 ## 役割
 
@@ -15,9 +15,9 @@
 node src/index.js <dir> <name>
 ```
 
-`npm create @yogodawa404/print-assets` は `npm exec @yogodawa404/create-print-assets` として
+`npm create @yodogawa404/print-assets` は `npm exec @yodogawa404/create-print-assets` として
 npm が解決する（`create-<initializer>` 規約）。**単一パッケージへの結合はしない**
-（`npm create @yogodawa404/print-assets` が `@yogodawa404/create-print-assets` を探すため、
+（`npm create @yodogawa404/print-assets` が `@yodogawa404/create-print-assets` を探すため、
 1 パッケージ化するとショートハンドが壊れる）。
 
 ## ディレクトリ構成
@@ -36,7 +36,7 @@ templates/                      # 生成されるプロジェクト雛形
 ## 重要：設計・規約
 
 - `npm create` のショートハンドを使えるよう、**パッケージ名は `create-` プレフィックスを維持**。
-  `@yogodawa404/create`（別 PJ）とは別名で衝突しない。
+  `@yodogawa404/create`（別 PJ）とは別名で衝突しない。
 - 生成する `package.json` には `playwright` を devDependency に含め、
   README に `npm run setup`（`playwright install chromium`）の手順を書くこと。
 - 空でない既存ディレクトリへの上書きを避ける（`index.html` / `package.json` / `src` の衝突チェック）。

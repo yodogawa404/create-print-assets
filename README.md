@@ -1,18 +1,18 @@
-# @yogodawa404/create-print-assets
+# @yodogawa404/create-print-assets
 
 `@yodogawa404/print-assets`（プリント素材生成エンジン）を使う **プロジェクトの雛形を生成する**
 scaffold CLI です。
 
-`npm create @yogodawa404/print-assets` で呼び出せます。
+`npm create @yodogawa404/print-assets` で呼び出せます。
 
 ## 使い方
 
 ```bash
 # カレントに生成
-npm create @yogodawa404/print-assets@latest
+npm create @yodogawa404/print-assets
 
 # ディレクトリ名を指定
-npm create @yogodawa404/print-assets@latest my-app
+npm create @yodogawa404/print-assets my-app
 ```
 
 対話で「プロジェクトを置くディレクトリ」と「package.json の name」を聞かれます
@@ -21,8 +21,8 @@ npm create @yogodawa404/print-assets@latest my-app
 ## 生成されるもの
 
 ```
-index.html                 # @yogodawa404/print-assets/entrypoint を参照
-package.json               # vite / react 19 / playwright / @yogodawa404/print-assets
+index.html                 # @yodogawa404/print-assets/entrypoint を参照
+package.json               # vite / react 19 / playwright / @yodogawa404/print-assets
 vite.config.ts             # react + vanilla-extract + printAssets プラグイン入り雛形
 tsconfig.json
 README.md                  # セットアップ / ページ追加手順
