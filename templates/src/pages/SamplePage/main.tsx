@@ -1,8 +1,6 @@
-import { page } from '@yodogawa404/print-assets/page';
-
 export default function SamplePage() {
   return (
-    <div className={page} data-canvas="page" data-format="a4">
+    <div data-canvas="page" data-format="a4">
       <div className="flex flex-1 flex-col bg-paper p-[18mm]">
         <header className="flex items-center justify-between">
           <span className="text-[5.5mm] font-bold tracking-[0.08em] text-ink">
