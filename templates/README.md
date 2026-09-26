@@ -49,6 +49,8 @@ npm run dev      # プレビュー（src/pages/ を編集）
 npm run build    # 本番ビルド + print CSS から PDF / PNG を dist/ へ出力
 npm run preview  # dist のプレビュー
 npx tsc --noEmit # 型チェック
+npm run format   # Prettier で整形（Tailwind クラスの並び替えを含む）
+npm run format:check # 整形されていないファイルがないかチェック（CI 用）
 ```
 
 `npm run build` はビルド完了後にエンジンの export が動き、`dist/` に
@@ -82,7 +84,8 @@ Tailwind CSS v4（`@tailwindcss/vite` プラグイン）でスタイルします
 }
 ```
 
-  `--color-ink` → `text-ink` / `bg-ink` / `border-ink`、`--font-sans` → `font-sans` 等。
+`--color-ink` → `text-ink` / `bg-ink` / `border-ink`、`--font-sans` → `font-sans` 等。
+
 - ユーティリティに収まらない専用スタイルは `global.css` に素の CSS として書くか、
   インライン `style` を使ってください。
 
@@ -100,11 +103,11 @@ Tailwind CSS v4（`@tailwindcss/vite` プラグイン）でスタイルします
 @import '@yodogawa404/noto-sans-jp/index.css';
 ```
 
-| パッケージ | font-family | weights | 役割 |
-| --- | --- | --- | --- |
-| `@yodogawa404/font-inter` | `Inter` | 400 / 700 | 英数字・記号 |
+| パッケージ                  | font-family    | weights   | 役割                |
+| --------------------------- | -------------- | --------- | ------------------- |
+| `@yodogawa404/font-inter`   | `Inter`        | 400 / 700 | 英数字・記号        |
 | `@yodogawa404/line-seed-jp` | `LINE Seed JP` | 400 / 700 | ひらがな / カタカナ |
-| `@yodogawa404/noto-sans-jp` | `Noto Sans JP` | 400 / 700 | 漢字ほか |
+| `@yodogawa404/noto-sans-jp` | `Noto Sans JP` | 400 / 700 | 漢字ほか            |
 
 - フォントスタックは `global.css` の `--font-sans`（`Inter` → `LINE Seed JP` → `Noto Sans JP`）。
   unicode-range で文字種ごとにフォントが切り替わるので、必要なファイルだけ読み込まれます。

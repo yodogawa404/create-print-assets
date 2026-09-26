@@ -1,9 +1,20 @@
 {
   "name": "@yodogawa404/create-print-assets",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Scaffold CLI that generates a project using the @yodogawa404/print-assets engine",
   "type": "module",
   "license": "MIT",
+  "scripts": {
+    "preformat": "npm --prefix templates install --no-package-lock",
+    "format": "prettier --write .",
+    "postformat": "npm --prefix templates run format",
+    "preformat:check": "npm --prefix templates install --no-package-lock",
+    "format:check": "prettier --check .",
+    "postformat:check": "npm --prefix templates run format:check"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.9"
+  },
   "publishConfig": {
     "access": "public"
   },

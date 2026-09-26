@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { cp, mkdir, readFile, writeFile, readdir, rename, rm } from 'node:fs/promises';
+import { cp, mkdir, readFile, writeFile, readdir } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createInterface } from 'node:readline/promises';
@@ -22,10 +22,20 @@ async function main() {
   let name = process.argv[3] ?? '';
 
   if (TTY) {
-    const rl = createInterface({ input: process.stdin, output: process.stdout });
+    const rl = createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
     try {
-      if (!target) target = (await rl.question('プロジェクトを置くディレクトリ名 [.]: ')).trim() || '.';
-      if (!name) name = (await rl.question('package.json の name: ')).trim() || 'print-assets-app';
+      if (!target)
+        target =
+          (
+            await rl.question('プロジェクトを置くディレクトリ名 [.]: ')
+          ).trim() || '.';
+      if (!name)
+        name =
+          (await rl.question('package.json の name: ')).trim() ||
+          'print-assets-app';
     } finally {
       rl.close();
     }
@@ -39,14 +49,21 @@ async function main() {
   const guarded = ['index.html', 'package.json', 'vite.config.ts', 'src'];
   const clash = guarded.filter((g) => existing.includes(g));
   if (clash.length > 0) {
-    throw new Error(`対象ディレクトリに既にファイルが存在します: ${clash.join(', ')}`);
+    throw new Error(
+      `対象ディレクトリに既にファイルが存在します: ${clash.join(', ')}`,
+    );
   }
 
   await mkdir(dest, { recursive: true });
-  await cp(TEMPLATES, dest, { recursive: true });
-
-  // _gitignore -> .gitignore (npm pack drops dotfiles).
-  await rename(join(dest, '_gitignore'), join(dest, '.gitignore'));
+  // Dotfiles (.gitignore / .prettierrc) are packed as-is thanks to
+  // templates/.npmignore's `!.gitignore` negation at pack time.
+  // node_modules / dist / out are present in the scaffold repo (for the
+  // template's own `npm run format`) but must not leak into generated projects.
+  const SKIP = ['node_modules', 'dist', 'out', '.npmignore'];
+  await cp(TEMPLATES, dest, {
+    recursive: true,
+    filter: (src) => !SKIP.includes(src.split('/').pop()),
+  });
 
   for (const f of ['package.json', 'index.html', 'README.md']) {
     await replaceInFile(join(dest, f), { name });
