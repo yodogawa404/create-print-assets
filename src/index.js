@@ -42,15 +42,17 @@ async function main() {
   }
   if (!name) name = 'print-assets-app';
 
+  if (!target) {
+    throw new Error('生成先ディレクトリ名が指定されていません。');
+  }
+
   const dest = resolve(process.cwd(), target);
 
-  // Avoid overwriting an existing project.
+  // Avoid overwriting an existing project: require the target to be empty.
   const existing = await readdir(dest).catch(() => []);
-  const guarded = ['index.html', 'package.json', 'vite.config.ts', 'src'];
-  const clash = guarded.filter((g) => existing.includes(g));
-  if (clash.length > 0) {
+  if (existing.length > 0) {
     throw new Error(
-      `対象ディレクトリに既にファイルが存在します: ${clash.join(', ')}`,
+      `対象ディレクトリが空ではありません: ${existing.join(', ')}`,
     );
   }
 
