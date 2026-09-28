@@ -20,5 +20,33 @@ jobs:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Install (root)
+        run: npm i
+
+      - name: Format check (root + templates)
+        run: npm run format:check
+
+      - name: Scaffold a project from template
+        run: node src/index.js verify-smoke verify-smoke
+
+      - name: Install generated project dependencies
+        working-directory: verify-smoke
+        run: npm install
+
+      - name: Install Playwright system deps (headless Chromium)
+        working-directory: verify-smoke
+        run: npx playwright install-deps chromium
+
+      - name: Install Playwright chromium
+        working-directory: verify-smoke
+        run: npm run setup
+
+      - name: Build ({{name}} replacement -> engine export)
+        working-directory: verify-smoke
+        run: npm run build
+
+      - name: Remove smoke-test scaffold
+        run: rm -rf verify-smoke
+
       - name: Publish
         run: npm publish --access public
