@@ -40,7 +40,7 @@ npm run format:check  # 整形されていないファイルがないかチェ�
 
 - `templates/` 配下はスキャフォールドされるプロジェクトそのものです。
 - `templates/package.json` はプレースホルダ `{{name}}` を含み、CLI が生成時にプロジェクト名へ置き換えます。
-- `templates/.npmignore` の `!.gitignore` 指定により、ドットファイル（`.gitignore` / `.prettierrc`）がパック時に残ります。`node_modules` / `dist` / `out` は生成先にはコピーされません。
+- `templates/.npmignore` の `!.gitignore` / `!.prettierrc` 指定により、ドットファイル（`.gitignore` / `.prettierrc`）がパック時に残ります。`.npmignore` 自体、`node_modules` / `dist` は生成先にはコピーされません。
 
 ## リポジトリ構成
 

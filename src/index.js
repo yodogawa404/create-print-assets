@@ -57,9 +57,9 @@ async function main() {
   await mkdir(dest, { recursive: true });
   // Dotfiles (.gitignore / .prettierrc) are packed as-is thanks to
   // templates/.npmignore's `!.gitignore` negation at pack time.
-  // node_modules / dist / out are present in the scaffold repo (for the
+  // node_modules / dist are present in the scaffold repo (for the
   // template's own `npm run format`) but must not leak into generated projects.
-  const SKIP = ['node_modules', 'dist', 'out', '.npmignore'];
+  const SKIP = ['node_modules', 'dist', '.npmignore'];
   await cp(TEMPLATES, dest, {
     recursive: true,
     filter: (src) => !SKIP.includes(src.split('/').pop()),

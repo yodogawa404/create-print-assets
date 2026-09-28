@@ -11,7 +11,7 @@
 ## 重要な仕組み
 
 - **`{{name}}` プレースホルダ** — `templates/package.json`・`index.html`・`README.md` に含まれ、CLI が生成時にプロジェクト名へ置き換える。この文字列を消したり別の書き方をしたりしない。
-- **ドットファイルの扱い** — `templates/.gitignore` と `.prettierrc` は、`templates/.npmignore` の `!.gitignore` 等の否定指定によって npm パック時に残る。`.npmignore` 自体、`node_modules`、`dist`、`out` は生成先へコピーしない（`src/index.js` の `SKIP` 配列）。
+- **ドットファイルの扱い** — `templates/.gitignore` と `.prettierrc` は、`templates/.npmignore` の `!.gitignore` / `!.prettierrc` という否定指定によって npm パック時に残る。`.npmignore` 自体、`node_modules`、`dist` は生成先へコピーしない（`src/index.js` の `SKIP` 配列）。
 - **テンプレート側の自己フォーマット** — `templates/` はそれ自身で `npm run format` が動く前提（プレフィックス/ポストフィックスの `npm --prefix templates ...`）。テンプレート内に `node_modules` が存在し得る点に注意。
 
 ## 編集するときの注意

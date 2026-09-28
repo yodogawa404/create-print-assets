@@ -28,7 +28,7 @@ src/pages/
 - フォルダ名がそのまま URL（file-based routing）になり、並び順はフォルダ名のユニコード順です。
 - キャンバスルートの `data-canvas="page"` と `data-format` は**必須**（`a4` か `square`。
   欠落・不正はビルド時にエラー）。キャンバスサイズの CSS（`page.css` / `print.css`）は
-  `src/main.tsx` が呼ぶ `init` が読み込むため、ページ側での import は不要です。
+  `src/main.ts` が呼ぶ `init` が読み込むため、ページ側での import は不要です。
 - `main.tsx` の雛形:
 
 ```tsx
@@ -59,7 +59,7 @@ npm run format:check # 整形されていないファイルがないかチェッ
 
 ## スタイル（Tailwind CSS）
 
-Tailwind CSS v4（`@tailwindcss/vite` プラグイン）でスタイルします。`.css.ts` は不要で、
+Tailwind CSS v4（`@tailwindcss/vite` プラグイン）でスタイルします。
 `main.tsx` にユーティリティクラスを直接書きます。
 
 ```tsx
