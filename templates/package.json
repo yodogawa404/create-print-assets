@@ -14,7 +14,7 @@
     "@yodogawa404/font-inter": "^0.0.4",
     "@yodogawa404/line-seed-jp": "^0.0.5",
     "@yodogawa404/noto-sans-jp": "^0.0.2",
-    "@yodogawa404/print-assets": "^1.0.4",
+    "@yodogawa404/print-assets": "^1.0.8",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

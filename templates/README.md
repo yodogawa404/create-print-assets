@@ -21,26 +21,27 @@ npm run setup   # Playwright バンドルの chromium をインストール（PD
 ```
 src/pages/
   SamplePage/
-    main.tsx        # default export。data-canvas="page" + page クラスを付ける
+    main.tsx        # default export。キャンバスルートに data-canvas + data-format を付ける
                     # スタイルは Tailwind のユーティリティクラスで直接書く
 ```
 
 - フォルダ名がそのまま URL（file-based routing）になり、並び順はフォルダ名のユニコード順です。
-- キャンバスルートの `data-format` は**必須**（`a4` か `square`。欠落・不正はビルド時にエラー）。
-  正方形（2048×2048 px）で出す場合は `pageSquare` + `data-format="square"` を使います。
+- キャンバスルートの `data-canvas="page"` と `data-format` は**必須**（`a4` か `square`。
+  欠落・不正はビルド時にエラー）。キャンバスサイズの CSS（`page.css` / `print.css`）は
+  `src/main.tsx` が呼ぶ `init` が読み込むため、ページ側での import は不要です。
 - `main.tsx` の雛形:
 
 ```tsx
-import { page } from '@yodogawa404/print-assets/page';
-
 export default function SamplePage() {
   return (
-    <div className={page} data-canvas="page" data-format="a4">
+    <div data-canvas="page" data-format="a4">
       <div className="flex flex-col bg-paper p-[18mm]">…</div>
     </div>
   );
 }
 ```
+
+正方形（2048×2048 px）で出す場合は `data-format="square"` を使います。
 
 ## コマンド
 
