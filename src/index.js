@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { cp, mkdir, readFile, writeFile, readdir } from 'node:fs/promises';
-import { dirname, join, resolve } from 'node:path';
+import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createInterface } from 'node:readline/promises';
 
@@ -62,7 +62,7 @@ async function main() {
   const SKIP = ['node_modules', 'dist', '.npmignore'];
   await cp(TEMPLATES, dest, {
     recursive: true,
-    filter: (src) => !SKIP.includes(src.split('/').pop()),
+    filter: (src) => !SKIP.includes(basename(src)),
   });
 
   for (const f of ['package.json', 'index.html', 'README.md']) {
